@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "target": "es2019",
     "module": "commonjs",
     "strict": true,
@@ -9,5 +10,8 @@
     "outDir": "dist",
     "jsx": "react",
     "declaration": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
