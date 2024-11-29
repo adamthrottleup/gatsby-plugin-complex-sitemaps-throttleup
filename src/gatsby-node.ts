@@ -51,7 +51,7 @@ exports.onPostBuild = async (
   reporter.verbose("Populating sitemap ended")
 
   //Generate the content of XML files and write the files recursively
-  await rootManager.generateXML(basePath)
+  await rootManager.generateXML(basePath, queryData)
 
   timer.end()
 
