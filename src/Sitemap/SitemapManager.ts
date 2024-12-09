@@ -116,13 +116,14 @@ export default class SitemapManager {
           child.sitemap.fileName
         } => ${childLocs.join("&")}`
       )
+      const lastmod = child.sitemap.lastmodFunc
+        ? child.sitemap.lastmodFunc(queryData)
+        : child.sitemap.lastmod
       childLocs.forEach(loc =>
         this.nodes.unshift({
           type: "sitemap",
           loc: loc,
-          lastmod: child.sitemap.lastmodFunc
-            ? child.sitemap.lastmodFunc(queryData)
-            : child.sitemap.lastmod ?? new Date().toISOString(),
+          lastmod: lastmod ?? new Date().toISOString(),
         })
       )
     })
