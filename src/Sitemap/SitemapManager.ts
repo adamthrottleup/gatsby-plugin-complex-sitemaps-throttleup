@@ -123,7 +123,7 @@ export default class SitemapManager {
         this.nodes.unshift({
           type: "sitemap",
           loc: loc,
-          lastmod: lastmod ?? new Date().toISOString(),
+          lastmod: lastmod ?? new Date().toISOString().split('.')[0],
         })
       )
     })
