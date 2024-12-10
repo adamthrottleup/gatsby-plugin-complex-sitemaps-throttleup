@@ -51,6 +51,7 @@ export const pluginOptionsSchema = ({ Joi }: any) => {
       "Path to the xsl file used to pimp your sitemap !"
     ),
     lastmod: Joi.string().description("lastmod value for this sitemap"),
+    lastmodFunc: Joi.function().description("Use instead of lastmod if you need a function"),
     children: Joi.array().items(
       Joi.link("...").description("Children sitemap, referenced into parent")
     ),

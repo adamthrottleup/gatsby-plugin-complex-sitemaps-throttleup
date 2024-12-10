@@ -105,10 +105,10 @@ export default class SitemapManager {
       this.populateChildren(queryData),
       this.populateWithQuery(queryData),
     ])
-    this.populateWithChildren()
+    this.populateWithChildren(queryData)
   }
 
-  populateWithChildren() {
+  populateWithChildren(queryData: any) {
     this.children?.forEach((child: SitemapManager) => {
       const childLocs = child.getLocs()
       this.reporter.verbose(
@@ -116,11 +116,14 @@ export default class SitemapManager {
           child.sitemap.fileName
         } => ${childLocs.join("&")}`
       )
+      const lastmod = child.sitemap.lastmodFunc
+        ? child.sitemap.lastmodFunc(queryData)
+        : child.sitemap.lastmod
       childLocs.forEach(loc =>
         this.nodes.unshift({
           type: "sitemap",
           loc: loc,
-          lastmod: child.sitemap.lastmod ?? new Date().toISOString(),
+          lastmod: lastmod ?? new Date().toISOString().split(".")[0],
         })
       )
     })
@@ -188,8 +191,8 @@ export default class SitemapManager {
   }
 
   //This function generate the xml of each file of the tree from the leaves to the root
-  async generateXML(pathPrefix: string) {
-    await this.generateChildrenXML(pathPrefix)
+  async generateXML(pathPrefix: string, queryData: any) {
+    await this.generateChildrenXML(pathPrefix, queryData)
 
     if (!this.sitemap.writeFile) {
       return
@@ -216,7 +219,7 @@ export default class SitemapManager {
           files[fileIndex] = { sitemap: [], url: [] }
         }
         files[fileIndex][node?.type].push(
-          `<${node.type}>${sitemapNodeToXML(node)}</${node.type}>`
+          `<${node.type}>${sitemapNodeToXML(node, queryData)}</${node.type}>`
         )
       })
 
@@ -260,10 +263,10 @@ export default class SitemapManager {
     )
   }
 
-  async generateChildrenXML(pathPrefix: string) {
+  async generateChildrenXML(pathPrefix: string, queryData: any) {
     await Promise.all(
       this.children?.map(async (child: SitemapManager) => {
-        await child.generateXML(pathPrefix)
+        await child.generateXML(pathPrefix, queryData)
       })
     )
   }

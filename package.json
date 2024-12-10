@@ -1,13 +1,13 @@
 {
   "name": "@throttleup/gatsby-plugin-complex-sitemap-tree",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "Gatsby plugin for generating multiple sitemaps from datalayer, with support for images",
   "main": "dist/gatsby-node.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "clean": "rm -rf node_modules",
     "lint": "run-p lint:*",
     "lint:js": "run-p lint:js:*",

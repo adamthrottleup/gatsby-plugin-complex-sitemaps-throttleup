@@ -13,12 +13,15 @@ export type PluginOptions = {
   outputURL?: string
 }
 
+type LastModFunction = (queryData: any) => string
+
 export type Sitemap = {
   //Base options
   writeFile?: boolean
   fileName: string
   outputFolder?: string
   lastmod?: string
+  lastmodFunc?: LastModFunction
   xslPath?: string
 
   //Tree
@@ -49,7 +52,14 @@ export type SitemapNode = {
   changefreq?: string
   priority?: string
   lastmod?: string | Date
-  [key: string]: string | SitemapSubNode | SitemapSubNode[] | Date | undefined
+  lastmodFunc?: LastModFunction
+  [key: string]:
+    | string
+    | SitemapSubNode
+    | SitemapSubNode[]
+    | Date
+    | undefined
+    | LastModFunction
 }
 
 export type SitemapSubNode = {
